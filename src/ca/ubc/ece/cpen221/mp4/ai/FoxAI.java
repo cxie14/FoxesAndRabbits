@@ -1,5 +1,6 @@
 package ca.ubc.ece.cpen221.mp4.ai;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -30,7 +31,55 @@ public class FoxAI extends AbstractAI {
 	public Command getNextAction(ArenaWorld world, ArenaAnimal animal) {
 		// TODO: Change this. Implement your own AI to make decisions regarding
 		// the next action.
-		return new WaitCommand();
+	    
+	    Set<Item> edibles = new HashSet<Item>();
+	    Set<Item> comrades = new HashSet<Item>();
+	    for(Item item : world.searchSurroundings(animal)){
+            if(item.getStrength() < animal.getStrength() && (item.getMeatCalories()>0)){
+                edibles.add(item);
+            }
+            else if(item.getName().equals(animal.getName())){
+                comrades.add(item);
+            }
+        }
+	    
+	    
+	    if(!(animal.getEnergy()>=animal.getMaxEnergy()-25) && edibles.size()>2){
+            for(Direction direction : Direction.values()){
+                for(Item item : edibles){
+                    if(item.getLocation().equals(new Location(animal.getLocation(),direction))){
+                        return new EatCommand(animal, item);
+                    }
+                }
+            }
+            
+            for(Item item : world.searchSurroundings(animal)){
+                Location targetLocation = new Location(
+                        animal.getLocation(),
+                        Util.getDirectionTowards(
+                                animal.getLocation(), 
+                                item.getLocation()));
+                if(item.getStrength() < animal.getStrength() && item.getMeatCalories()>0 && Util.isLocationEmpty((World) world, targetLocation)){
+                    return new MoveCommand(animal, targetLocation);
+                }
+            } 
+        }
+        else if(comrades.size() == 0){
+            for(Direction direction : Direction.values()){
+                Location breedTarget = new Location(animal.getLocation(), direction);
+                if(Util.isLocationEmpty((World) world, breedTarget)){
+                    return new BreedCommand(animal, breedTarget);
+                }
+            }
+        }
+        
+        Direction dir = Util.getRandomDirection();
+        Location targetLocation = new Location(animal.getLocation(), dir);
+        if (Util.isValidLocation(world, targetLocation) && Util.isLocationEmpty((World) world, targetLocation)) {
+            return new MoveCommand(animal, targetLocation);
+        }
+
+        return new WaitCommand();
 	}
 
 }
