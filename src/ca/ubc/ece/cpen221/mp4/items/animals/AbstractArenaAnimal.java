@@ -1,5 +1,4 @@
 package ca.ubc.ece.cpen221.mp4.items.animals;
-
 import javax.swing.ImageIcon;
 
 import ca.ubc.ece.cpen221.mp4.Food;

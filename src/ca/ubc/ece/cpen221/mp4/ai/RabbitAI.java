@@ -46,9 +46,7 @@ public class RabbitAI extends AbstractAI {
             }
         }
 	    
-
-        Random rand = new Random();
-	    if(!(animal.getEnergy()>=animal.getMaxEnergy()-15)){
+	    if(!(animal.getEnergy()>=animal.getMaxEnergy()-10)){
     	    for(Direction direction : Direction.values()){
         	    for(Item item : edibles){
         	        if(item.getLocation().equals(new Location(animal.getLocation(),direction))){
@@ -68,7 +66,7 @@ public class RabbitAI extends AbstractAI {
                 }
     	    } 
 	    }
-	    else if(comrades.size() == 0 && rand.nextInt(2) == 0){
+	    else if(comrades.size() == 0){
 	        for(Direction direction : Direction.values()){
 	            Location breedTarget = new Location(animal.getLocation(), direction);
 	            if(Util.isLocationEmpty((World) world, breedTarget)){

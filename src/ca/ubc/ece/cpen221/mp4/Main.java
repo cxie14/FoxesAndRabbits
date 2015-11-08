@@ -6,6 +6,8 @@ import ca.ubc.ece.cpen221.mp4.ai.*;
 import ca.ubc.ece.cpen221.mp4.items.Gardener;
 import ca.ubc.ece.cpen221.mp4.items.Grass;
 import ca.ubc.ece.cpen221.mp4.items.animals.*;
+import ca.ubc.ece.cpen221.mp4.items.vehicles.MotorCycle;
+import ca.ubc.ece.cpen221.mp4.items.vehicles.Panzer;
 import ca.ubc.ece.cpen221.mp4.staff.WorldImpl;
 import ca.ubc.ece.cpen221.mp4.staff.WorldUI;
 
@@ -23,17 +25,19 @@ public class Main {
 	static final int SPACES_PER_GRASS = 7;
 	static final int INITIAL_GRASS = X_DIM * Y_DIM / SPACES_PER_GRASS;
 	static final int INITIAL_GNATS = INITIAL_GRASS / 4;
-	static final int INITIAL_RABBITS = INITIAL_GRASS / 4;
-	static final int INITIAL_FOXES = INITIAL_GRASS / 32;
+	static final int INITIAL_RABBITS = 0;// = INITIAL_GRASS / 4;
+	static final int INITIAL_FOXES = 0;// = INITIAL_GRASS / 32;
 	static final int INITIAL_TIGERS = INITIAL_GRASS / 32;
 	static final int INITIAL_BEARS = INITIAL_GRASS / 40;
 	static final int INITIAL_HYENAS = INITIAL_GRASS / 32;
 	static final int INITIAL_CARS = INITIAL_GRASS / 100;
 	static final int INITIAL_TRUCKS = INITIAL_GRASS / 150;
-	static final int INITIAL_MOTORCYCLES = INITIAL_GRASS / 64;
+	static final int INITIAL_MOTORCYCLES = 12; //INITIAL_GRASS / 32;
 	static final int INITIAL_MANS = INITIAL_GRASS / 150;
 	static final int INITIAL_WOMANS = INITIAL_GRASS / 100;
 	static final int INITIAL_HUNTERS = INITIAL_GRASS / 150;
+	
+	static final int INITIAL_PANZERS = 3;
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -57,10 +61,30 @@ public class Main {
 		addGnats(world);
 		addRabbits(world);
 		addFoxes(world);
+		addPanzers(world);
+		addMotorcycles(world);
 		// TODO: You may add your own creatures here!
 	}
 
-	private void addGrass(World world) {
+	private void addMotorcycles(World world) {
+	    for (int i = 0; i < INITIAL_MOTORCYCLES; i++) {
+            Location loc = Util.getRandomEmptyLocation(world);
+            MotorCycle cycle = new MotorCycle(loc);
+            world.addItem(cycle);
+            world.addActor(cycle);
+        }
+    }
+
+    private void addPanzers(World world) {
+	    for (int i = 0; i < INITIAL_PANZERS; i++) {
+            Location loc = Util.getRandomEmptyLocation(world);
+            Panzer panzer = new Panzer(loc);
+            world.addItem(panzer);
+            world.addActor(panzer);
+        }
+    }
+
+    private void addGrass(World world) {
 		for (int i = 0; i < INITIAL_GRASS; i++) {
 			Location loc = Util.getRandomEmptyLocation(world);
 			world.addItem(new Grass(loc));

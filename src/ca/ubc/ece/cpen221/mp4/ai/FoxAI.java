@@ -34,6 +34,8 @@ public class FoxAI extends AbstractAI {
 	    
 	    Set<Item> edibles = new HashSet<Item>();
 	    Set<Item> comrades = new HashSet<Item>();
+	    
+	    //search surrounding
 	    for(Item item : world.searchSurroundings(animal)){
             if(item.getStrength() < animal.getStrength() && (item.getMeatCalories()>0)){
                 edibles.add(item);
@@ -44,7 +46,7 @@ public class FoxAI extends AbstractAI {
         }
 	    
 	    
-	    if(!(animal.getEnergy()>=animal.getMaxEnergy()-25) && edibles.size()>2){
+	    if((animal.getEnergy()<=animal.getMaxEnergy()-25) && edibles.size()>2){
             for(Direction direction : Direction.values()){
                 for(Item item : edibles){
                     if(item.getLocation().equals(new Location(animal.getLocation(),direction))){
