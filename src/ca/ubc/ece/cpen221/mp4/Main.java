@@ -6,6 +6,7 @@ import ca.ubc.ece.cpen221.mp4.ai.*;
 import ca.ubc.ece.cpen221.mp4.items.Gardener;
 import ca.ubc.ece.cpen221.mp4.items.Grass;
 import ca.ubc.ece.cpen221.mp4.items.animals.*;
+import ca.ubc.ece.cpen221.mp4.items.vehicles.M4Sherman;
 import ca.ubc.ece.cpen221.mp4.items.vehicles.MotorCycle;
 import ca.ubc.ece.cpen221.mp4.items.vehicles.Panzer;
 import ca.ubc.ece.cpen221.mp4.staff.WorldImpl;
@@ -36,6 +37,7 @@ public class Main {
 	static final int INITIAL_MANS = INITIAL_GRASS / 150;
 	static final int INITIAL_WOMANS = INITIAL_GRASS / 100;
 	static final int INITIAL_HUNTERS = INITIAL_GRASS / 150;
+	static final int INITIAL_SHERMANS= 5;
 	
 	static final int INITIAL_PANZERS = 3;
 
@@ -63,6 +65,7 @@ public class Main {
 		addFoxes(world);
 		addPanzers(world);
 		addMotorcycles(world);
+		addShermans(world);
 		// TODO: You may add your own creatures here!
 	}
 
@@ -117,6 +120,15 @@ public class Main {
 			Rabbit rabbit = new Rabbit(rabbitAI, loc);
 			world.addItem(rabbit);
 			world.addActor(rabbit);
+		}
+	}
+	
+	private void addShermans(World world){
+		for(int i = 0; i< INITIAL_SHERMANS; i++){
+			Location loc= Util.getRandomEmptyLocation(world);
+			M4Sherman sherman= new M4Sherman(loc);
+			world.addItem(sherman);
+			world.addActor(sherman);
 		}
 	}
 }
