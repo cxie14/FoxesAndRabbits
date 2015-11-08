@@ -14,6 +14,7 @@ import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 import ca.ubc.ece.cpen221.mp4.items.Item;
 import ca.ubc.ece.cpen221.mp4.items.MoveableItem;
 import ca.ubc.ece.cpen221.mp4.items.animals.ArenaAnimal;
+import ca.ubc.ece.cpen221.mp4.items.vehicles.ArenaVehicle;
 import vehicles.Vehicles;
 
 public class M4ShermanAI extends AbstractAI {
@@ -22,7 +23,7 @@ public class M4ShermanAI extends AbstractAI {
 
 	}
 
-	public Command getNextAction(ArenaWorld world, Vehicles item) {
+	public Command getNextAction(ArenaWorld world, ArenaVehicle item) {
 		
 		Set<Item> runOver = new HashSet<Item>();
 		Set<Item> crash= new HashSet<Item>();
