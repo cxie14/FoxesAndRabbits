@@ -10,6 +10,7 @@ import ca.ubc.ece.cpen221.mp4.Location;
 import ca.ubc.ece.cpen221.mp4.Util;
 import ca.ubc.ece.cpen221.mp4.World;
 import ca.ubc.ece.cpen221.mp4.commands.Command;
+import ca.ubc.ece.cpen221.mp4.commands.ExplosionCommand;
 import ca.ubc.ece.cpen221.mp4.items.Item;
 import ca.ubc.ece.cpen221.mp4.items.MoveableItem;
 
@@ -27,6 +28,11 @@ public class Explosion implements MoveableItem, Actor{
     
     private int energy;
     private Location location;
+    
+    public Explosion(Location loc, int energy){
+        this.location = loc;
+        this.energy = Math.min(energy, MAXIMUM_ENERGY);
+    }
     
     @Override
     public ImageIcon getImage() {
@@ -93,7 +99,8 @@ public class Explosion implements MoveableItem, Actor{
                     }
                 }
                 if(Util.isLocationEmpty(world, nextLocation)){
-                    return new ExplosionCommand(nextLocation);
+                    this.energy /= 2;
+                    return new ExplosionCommand(nextLocation, this.energy);
                 }
             }
         }
