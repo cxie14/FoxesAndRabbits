@@ -54,7 +54,7 @@ public final class Location {
 		}
 	}
 
-	/**
+    /**
 	 * @return the x-coordinate of this Location
 	 */
 	public int getX() {
