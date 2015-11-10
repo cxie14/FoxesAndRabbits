@@ -46,5 +46,9 @@ public final class MoveCommand implements Command {
 
 		item.moveTo(targetLocation);
 	}
+	
+	public String toString(){
+	    return "Moving"+item.getName()+targetLocation;
+	}
 
 }

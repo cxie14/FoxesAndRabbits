@@ -37,9 +37,9 @@ public class Main {
 	static final int INITIAL_MANS = INITIAL_GRASS / 150;
 	static final int INITIAL_WOMANS = INITIAL_GRASS / 100;
 	static final int INITIAL_HUNTERS = INITIAL_GRASS / 150;
-	static final int INITIAL_SHERMANS= 5;
+	static final int INITIAL_SHERMANS= 10;
 	
-	static final int INITIAL_PANZERS = 3;
+	static final int INITIAL_PANZERS = 5;
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -57,12 +57,12 @@ public class Main {
 	}
 
 	public void initialize(World world) {
-		addGrass(world);
+		//addGrass(world);
 		world.addActor(new Gardener());
 
-		addGnats(world);
-		addRabbits(world);
-		addFoxes(world);
+		//addGnats(world);
+		//addRabbits(world);
+		//addFoxes(world);
 		addPanzers(world);
 		addMotorcycles(world);
 		addShermans(world);

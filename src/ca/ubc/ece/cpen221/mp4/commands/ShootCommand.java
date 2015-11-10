@@ -7,7 +7,7 @@ import ca.ubc.ece.cpen221.mp4.items.Item;
 import ca.ubc.ece.cpen221.mp4.items.misc.Explosion;
 import ca.ubc.ece.cpen221.mp4.items.misc.BombShell;
 
-public class ShootCommand {
+public class ShootCommand implements Command{
 
     private final Location loc;
     private final Direction dir;
@@ -21,7 +21,7 @@ public class ShootCommand {
         
         for(Item i : w.getItems()){
             if(i.getLocation().equals(loc)){
-                i.loseEnergy(Integer.MAX_VALUE);
+                i.loseEnergy(Integer.MAX_VALUE/16);
                 break;
             }
         }

@@ -26,7 +26,7 @@ public class M4Sherman implements ArenaVehicle{
     private static final int STRENGTH = 50;
     private static final int INITIAL_ENERGY = 100;
     private static final Direction INITIAL_DIRECTION = Direction.NORTH;
-    private static final int PROBABILITY_OF_EXPLOSION = 10;
+    private static final int PROBABILITY_OF_EXPLOSION = 100;
     
     private static final ImageIcon image = Util.loadImage("m4sherman.gif");
     private static final String name = "M4 Sherman";
@@ -104,8 +104,9 @@ public class M4Sherman implements ArenaVehicle{
     	Random rand = new Random();
     	int randVal = rand.nextInt(PROBABILITY_OF_EXPLOSION);
     	
-    	if(randVal== PROBABILITY_OF_EXPLOSION){
-    		return new ExplosionCommand(this);
+    	if(randVal == 0){
+    	    this.loseEnergy(INITIAL_ENERGY);
+    		return new ExplosionCommand(this.location, 320);
     	}
     	
     	//Slow down before hitting the borders 
@@ -174,10 +175,10 @@ public class M4Sherman implements ArenaVehicle{
         Location nextLocation = new Location(location, direction);
         for(Item i : world.searchSurroundings(location, 1)){
             if(i.getLocation().equals(nextLocation) && i.getStrength() < STRENGTH){
-                i.loseEnergy(Integer.MAX_VALUE/3);
+                i.loseEnergy(STRENGTH);
             }
             else if(i.getLocation().equals(nextLocation) && i.getStrength() >= STRENGTH){
-                loseEnergy(Integer.MAX_VALUE/3);
+                loseEnergy(INITIAL_ENERGY);
             }
         }
         if(Util.isLocationEmpty(world, nextLocation))

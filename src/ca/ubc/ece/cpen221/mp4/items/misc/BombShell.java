@@ -16,10 +16,10 @@ import ca.ubc.ece.cpen221.mp4.items.MoveableItem;
 public class BombShell  implements MoveableItem, Actor{
     
     private ImageIcon shellImage = Util.loadImage("explosion.gif");
-    private static final int STRENGTH = 150;
+    private static final int STRENGTH = 200;
     private static final int INITIAL_ENERGY = 320;
     private static final int COOLDOWN = 1;
-    private static final int MAX_MOVE_RANGE = 1;
+    private static final int MAX_MOVE_RANGE = 2;
     
     private static final String NAME = "Eat this";
     
@@ -81,20 +81,29 @@ public class BombShell  implements MoveableItem, Actor{
     @Override
     public Command getNextAction(World world) {
         Location nextLocation = new Location(this.location, shotDirection);
+        Location nextNextLocation = new Location(nextLocation, shotDirection);
+        
         for(Item i : world.getItems()){
-            if(i.getLocation() == this.location){
+            if(i.getLocation().equals(nextLocation)){
                 if(i.getStrength() > this.STRENGTH){
-                    this.energy = 0;
                     return new ExplosionCommand(this.location, this.energy);
                 } else{
-                    i.loseEnergy(Integer.MAX_VALUE);
+                    i.loseEnergy(this.STRENGTH);
                 }
             }
         }
-        if(Util.isLocationEmpty(world, nextLocation)){
-            return new MoveCommand(this, nextLocation);
+        for(Item i : world.getItems()){
+            if(i.getLocation().equals(nextNextLocation)){
+                if(i.getStrength() > this.STRENGTH){
+                    return new ExplosionCommand(nextLocation, this.energy);
+                } else{
+                    i.loseEnergy(this.STRENGTH);
+                }
+            }
+        }
+        if(Util.isLocationEmpty(world, nextLocation) && Util.isLocationEmpty(world, nextNextLocation)){
+            return new MoveCommand(this, nextNextLocation);
         } else {
-            this.energy = 0;
             return new ExplosionCommand(this.location, this.energy);
         }
     }
