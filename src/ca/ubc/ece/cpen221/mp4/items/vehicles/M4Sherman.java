@@ -103,7 +103,6 @@ public class M4Sherman implements ArenaVehicle{
         //random chance of explosion
     	Random rand = new Random();
     	int randVal = rand.nextInt(PROBABILITY_OF_EXPLOSION);
-    	
 
     	if(randVal == 0){
     	    this.loseEnergy(INITIAL_ENERGY);
