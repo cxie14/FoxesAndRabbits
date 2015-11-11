@@ -10,6 +10,7 @@ import ca.ubc.ece.cpen221.mp4.World;
 import ca.ubc.ece.cpen221.mp4.commands.Command;
 import ca.ubc.ece.cpen221.mp4.commands.ExplosionCommand;
 import ca.ubc.ece.cpen221.mp4.commands.MoveCommand;
+import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 import ca.ubc.ece.cpen221.mp4.items.Item;
 import ca.ubc.ece.cpen221.mp4.items.MoveableItem;
 
@@ -21,7 +22,7 @@ public class BombShell  implements MoveableItem, Actor{
     private static final int COOLDOWN = 1;
     private static final int MAX_MOVE_RANGE = 2;
     
-    private static final String NAME = "Eat this";
+    private static final String NAME = "Eat this mf";
     
     private Location location;
     private int energy;
@@ -60,7 +61,7 @@ public class BombShell  implements MoveableItem, Actor{
 
     @Override
     public boolean isDead() {
-        return energy < 0;
+        return this.energy < 0;
     }
 
     @Override
@@ -81,31 +82,48 @@ public class BombShell  implements MoveableItem, Actor{
     @Override
     public Command getNextAction(World world) {
         Location nextLocation = new Location(this.location, shotDirection);
-        Location nextNextLocation = new Location(nextLocation, shotDirection);
+        
         
         for(Item i : world.getItems()){
             if(i.getLocation().equals(nextLocation)){
                 if(i.getStrength() > this.STRENGTH){
-                    return new ExplosionCommand(this.location, this.energy);
+                    this.loseEnergy(INITIAL_ENERGY);
+                    if(Util.isLocationEmpty(world, this.location)){
+                        return new ExplosionCommand(this.location, this.energy);
+                    }
                 } else{
                     i.loseEnergy(this.STRENGTH);
                 }
             }
         }
+        
+        Location nextNextLocation = new Location(nextLocation, shotDirection);
         for(Item i : world.getItems()){
             if(i.getLocation().equals(nextNextLocation)){
                 if(i.getStrength() > this.STRENGTH){
-                    return new ExplosionCommand(nextLocation, this.energy);
+                    this.loseEnergy(INITIAL_ENERGY);
+                    if(Util.isLocationEmpty(world, this.location)){
+                        return new ExplosionCommand(this.location, this.energy);
+                    }
                 } else{
                     i.loseEnergy(this.STRENGTH);
                 }
             }
         }
+        
         if(Util.isLocationEmpty(world, nextLocation) && Util.isLocationEmpty(world, nextNextLocation)){
+            System.out.println("Move shell");
             return new MoveCommand(this, nextNextLocation);
         } else {
-            return new ExplosionCommand(this.location, this.energy);
+            this.loseEnergy(INITIAL_ENERGY);
+            if(Util.isLocationEmpty(world, this.location)){
+                return new ExplosionCommand(this.location, this.energy);
+            } else{
+                System.out.println("wait for it");
+                return new WaitCommand();
+            }
         }
+        
     }
 
     @Override
