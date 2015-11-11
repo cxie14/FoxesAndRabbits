@@ -1,21 +1,19 @@
 package ca.ubc.ece.cpen221.mp4.commands;
 
 import ca.ubc.ece.cpen221.mp4.Direction;
-
-
-
 import ca.ubc.ece.cpen221.mp4.Location;
 import ca.ubc.ece.cpen221.mp4.World;
 import ca.ubc.ece.cpen221.mp4.items.Item;
 import ca.ubc.ece.cpen221.mp4.items.misc.Explosion;
+import ca.ubc.ece.cpen221.mp4.items.misc.AirStrike;
 import ca.ubc.ece.cpen221.mp4.items.misc.BombShell;
 
-public class ShootCommand implements Command{
-	private final Direction dir;
+public class AirStrikeCommand implements Command{
+
     private final Location loc;
-   
+    private final Direction dir;
     
-    public ShootCommand(Location location, Direction dir) {
+    public AirStrikeCommand(Location location, Direction dir) {
         this.loc=location;
         this.dir = dir;
     }
@@ -29,11 +27,10 @@ public class ShootCommand implements Command{
             }
         }
         
-        BombShell explode = new BombShell(dir, loc);
+        AirStrike explode = new AirStrike(loc, dir);
         
         w.addActor(explode);
         w.addItem(explode);
     }
-
 }
 

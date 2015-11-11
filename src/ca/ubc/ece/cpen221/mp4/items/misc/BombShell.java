@@ -112,14 +112,12 @@ public class BombShell  implements MoveableItem, Actor{
         }
         
         if(Util.isLocationEmpty(world, nextLocation) && Util.isLocationEmpty(world, nextNextLocation)){
-            System.out.println("Move shell");
             return new MoveCommand(this, nextNextLocation);
         } else {
             this.loseEnergy(INITIAL_ENERGY);
             if(Util.isLocationEmpty(world, this.location)){
                 return new ExplosionCommand(this.location, this.energy);
             } else{
-                System.out.println("wait for it");
                 return new WaitCommand();
             }
         }

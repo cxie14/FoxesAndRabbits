@@ -39,7 +39,6 @@ public class Main {
 	static final int INITIAL_WOMANS = INITIAL_GRASS / 100;
 	static final int INITIAL_HUNTERS = INITIAL_GRASS / 150;
 
-	static final int INITIAL_SHERMANS= 5;
 	static final int INITIAL_SQUID= 1;
 
 	static final int INITIAL_SHERMANS= 10;
