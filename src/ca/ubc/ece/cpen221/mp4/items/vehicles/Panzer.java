@@ -1,5 +1,7 @@
 package ca.ubc.ece.cpen221.mp4.items.vehicles;
 
+import java.util.Random;
+
 import javax.swing.ImageIcon;
 
 import ca.ubc.ece.cpen221.mp4.Direction;
@@ -7,7 +9,9 @@ import ca.ubc.ece.cpen221.mp4.Location;
 import ca.ubc.ece.cpen221.mp4.Util;
 import ca.ubc.ece.cpen221.mp4.World;
 import ca.ubc.ece.cpen221.mp4.commands.Command;
+import ca.ubc.ece.cpen221.mp4.commands.ExplosionCommand;
 import ca.ubc.ece.cpen221.mp4.commands.MoveCommand;
+import ca.ubc.ece.cpen221.mp4.commands.ShootCommand;
 import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 import ca.ubc.ece.cpen221.mp4.items.Item;
 
@@ -22,6 +26,8 @@ public class Panzer implements ArenaVehicle{
     private static final int STRENGTH = 800;
     private static final int INITIAL_ENERGY = 1500;
     private static final Direction INITIAL_DIRECTION = Direction.NORTH;
+    
+    private static final int INVERSE_PROBABILITY_SHOT = 10;
     
     private static final ImageIcon image = Util.loadImage("trucks.gif");
     private static final String name = "Panzer Kampf Wagen";
@@ -97,6 +103,14 @@ public class Panzer implements ArenaVehicle{
     public Command getNextAction(World world) {
         //Slow down before hitting the borders 
         //if total speed decay before crashing is lower or equal to speed leeway, start decelarating 
+        
+        Random rand = new Random();
+        int randVal = rand.nextInt(INVERSE_PROBABILITY_SHOT);
+        
+        if(randVal == 0){
+            return new ShootCommand(new Location(this.location, direction), this.direction);
+        }
+        
         if(speed <= MAX_TURN_SPEED){
             direction = Util.getRandomDirection();
         }
@@ -160,10 +174,10 @@ public class Panzer implements ArenaVehicle{
         Location nextLocation = new Location(location, direction);
         for(Item i : world.searchSurroundings(location, 1)){
             if(i.getLocation().equals(nextLocation) && i.getStrength() < STRENGTH){
-                i.loseEnergy(Integer.MAX_VALUE/3);
+                i.loseEnergy(STRENGTH);
             }
             else if(i.getLocation().equals(nextLocation) && i.getStrength() >= STRENGTH){
-                loseEnergy(Integer.MAX_VALUE/3);
+                loseEnergy(INITIAL_ENERGY);
             }
         }
         if(Util.isLocationEmpty(world, nextLocation))

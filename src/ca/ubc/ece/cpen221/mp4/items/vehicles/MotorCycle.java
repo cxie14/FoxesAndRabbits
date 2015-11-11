@@ -7,11 +7,13 @@ import ca.ubc.ece.cpen221.mp4.Location;
 import ca.ubc.ece.cpen221.mp4.Util;
 import ca.ubc.ece.cpen221.mp4.World;
 import ca.ubc.ece.cpen221.mp4.commands.Command;
+import ca.ubc.ece.cpen221.mp4.commands.ExplosionCommand;
 import ca.ubc.ece.cpen221.mp4.commands.MoveCommand;
 import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 import ca.ubc.ece.cpen221.mp4.items.Item;
 
 public class MotorCycle implements ArenaVehicle{
+    private static final int EXPLOSION_ENERGY = 160;
     private static final int MOVING_RANGE = 2;
     private static final double MAX_ACCELERATION = 0.25;
     private static final double MAX_SPEED = 1;
@@ -177,29 +179,35 @@ public class MotorCycle implements ArenaVehicle{
                 break;
         }
         
-        
+        boolean crashed = false;
         Location nextLocation = new Location(location, direction);
         for(Item i : world.searchSurroundings(location, 1)){
             if(i.getLocation().equals(nextLocation) && i.getStrength() < STRENGTH){
-                i.loseEnergy(Integer.MAX_VALUE/3);
+                i.loseEnergy(STRENGTH);
                 speed = Math.max(speed - 1.5*MAX_ACCELERATION, MIN_SPEED);
             }
             else if(i.getLocation().equals(nextLocation) && i.getStrength() >= STRENGTH){
-                loseEnergy(Integer.MAX_VALUE/3);
+                loseEnergy(INITIAL_ENERGY);
+                crashed = true;
             }
         }
         if(this.turbo){
             Location turboLocation = new Location(nextLocation, direction);
             for(Item i : world.searchSurroundings(location, 2)){
                 if(i.getLocation().equals(turboLocation) && i.getStrength() < STRENGTH){
-                    i.loseEnergy(Integer.MAX_VALUE/3);
+                    i.loseEnergy(Integer.MAX_VALUE/16);
                     speed = Math.max(speed - 1.5*MAX_ACCELERATION, MIN_SPEED);
                 }
                 else if(i.getLocation().equals(turboLocation) && i.getStrength() >= STRENGTH){
-                    loseEnergy(Integer.MAX_VALUE/3);
+                    loseEnergy(INITIAL_ENERGY);
+                    crashed = true;
                 }
             }
             nextLocation = turboLocation;
+        }
+        
+        if(crashed && Util.isLocationEmpty(world, location)){
+            return new ExplosionCommand(location, EXPLOSION_ENERGY);
         }
         
         if(Util.isLocationEmpty(world, nextLocation))

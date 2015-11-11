@@ -11,6 +11,7 @@ import ca.ubc.ece.cpen221.mp4.Util;
 import ca.ubc.ece.cpen221.mp4.World;
 import ca.ubc.ece.cpen221.mp4.commands.Command;
 import ca.ubc.ece.cpen221.mp4.commands.ExplosionCommand;
+import ca.ubc.ece.cpen221.mp4.commands.WaitCommand;
 import ca.ubc.ece.cpen221.mp4.items.Item;
 import ca.ubc.ece.cpen221.mp4.items.MoveableItem;
 
@@ -87,24 +88,23 @@ public class Explosion implements MoveableItem, Actor{
     public Command getNextAction(World world) {
         this.loseEnergy(ENERGY_DECAY);
         Random rand = new Random();
-        
-        for(Direction direction : Direction.values()){
-            Location nextLocation = new Location(this.location, direction);
-            if(0 == rand.nextInt(this.INVERSE_SPREAD_PROBABILITY)){
-                for(Item i : world.searchSurroundings(this.location, 1)){
-                    if(i.getLocation() == nextLocation){
-                        if(i.getStrength() < this.STRENGTH){
-                            i.loseEnergy(STRENGTH);
-                        }
+
+        Location nextLocation = new Location(this.location, Util.getRandomDirection());
+
+        if(0 == rand.nextInt(this.INVERSE_SPREAD_PROBABILITY)){
+            for(Item i : world.searchSurroundings(this.location, 1)){
+                if(i.getLocation().equals(nextLocation)){
+                    if(i.getStrength() < this.STRENGTH){
+                        i.loseEnergy(STRENGTH);
                     }
                 }
-                if(Util.isLocationEmpty(world, nextLocation)){
-                    this.energy /= 2;
-                    return new ExplosionCommand(nextLocation, this.energy);
-                }
+            }
+            if(Util.isLocationEmpty(world, nextLocation)){
+                this.energy = this.energy/2;
+                return new ExplosionCommand(nextLocation, this.energy);
             }
         }
-        return null;
+        return new WaitCommand();
     }
 
     @Override
