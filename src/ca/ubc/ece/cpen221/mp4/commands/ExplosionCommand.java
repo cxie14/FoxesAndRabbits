@@ -7,6 +7,17 @@ import ca.ubc.ece.cpen221.mp4.items.Item;
 import ca.ubc.ece.cpen221.mp4.items.LivingItem;
 import ca.ubc.ece.cpen221.mp4.items.misc.Explosion;
 
+/**
+ * Construct a {@link ExplosionCommand}, where the item at <code>location<code>
+ * is destroyed in an explosion whose has a size determined by <code>energy<code>.
+ * The target location must be valid and not empty.
+ *
+ * @param location
+ *            the location of the item to be destroyed
+ * @param dir
+ * 			the energy of the item at that 
+ * @throws InvalidCommandException if the location is not empty
+ */
 public class ExplosionCommand implements Command{
 
 	private final Location loc;

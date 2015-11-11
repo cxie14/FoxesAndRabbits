@@ -103,16 +103,10 @@ public class M4Sherman implements ArenaVehicle{
         //random chance of explosion
     	Random rand = new Random();
     	int randVal = rand.nextInt(PROBABILITY_OF_EXPLOSION);
-    	
-<<<<<<< HEAD
-    	if(randVal== 0){
-    		
-    		return new ExplosionCommand(location, 320);
-=======
+
     	if(randVal == 0){
     	    this.loseEnergy(INITIAL_ENERGY);
     		return new ExplosionCommand(this.location, 320);
->>>>>>> 58ea8950b41695a2ca87ccdd3a4776ec135aeda6
     	}
     	
     	//Slow down before hitting the borders 
