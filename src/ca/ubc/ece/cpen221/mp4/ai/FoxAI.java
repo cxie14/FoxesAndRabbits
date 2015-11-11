@@ -29,8 +29,6 @@ public class FoxAI extends AbstractAI {
 
 	@Override
 	public Command getNextAction(ArenaWorld world, ArenaAnimal animal) {
-		// TODO: Change this. Implement your own AI to make decisions regarding
-		// the next action.
 	    
 	    Set<Item> edibles = new HashSet<Item>();
 	    Set<Item> comrades = new HashSet<Item>();
