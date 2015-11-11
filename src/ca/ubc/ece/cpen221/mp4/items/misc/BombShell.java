@@ -3,93 +3,111 @@ package ca.ubc.ece.cpen221.mp4.items.misc;
 import javax.swing.ImageIcon;
 
 import ca.ubc.ece.cpen221.mp4.Actor;
+import ca.ubc.ece.cpen221.mp4.Direction;
 import ca.ubc.ece.cpen221.mp4.Location;
 import ca.ubc.ece.cpen221.mp4.Util;
 import ca.ubc.ece.cpen221.mp4.World;
 import ca.ubc.ece.cpen221.mp4.commands.Command;
+import ca.ubc.ece.cpen221.mp4.commands.ExplosionCommand;
+import ca.ubc.ece.cpen221.mp4.commands.MoveCommand;
+import ca.ubc.ece.cpen221.mp4.items.Item;
 import ca.ubc.ece.cpen221.mp4.items.MoveableItem;
 
 public class BombShell  implements MoveableItem, Actor{
     
-    private ImageIcon explosionImage = Util.loadImage("explosion.gif");
-    private static final int STRENGTH = 700;
-    private static final int MINIMUM_SPREAD_ENERGY = 20;
-    private static final int MAXIMUM_ENERGY = 320;
-    private static final int ENERGY_DECAY = 5;
-    private static final int INVERSE_SPREAD_PROBABILITY = 2;
+    private ImageIcon shellImage = Util.loadImage("explosion.gif");
+    private static final int STRENGTH = 150;
+    private static final int INITIAL_ENERGY = 320;
     private static final int COOLDOWN = 1;
+    private static final int MAX_MOVE_RANGE = 1;
     
     private static final String NAME = "Eat this";
     
+    private Location location;
+    private int energy;
+    private Direction shotDirection;
+    
+    public BombShell(Direction shotDir, Location location) {
+        this.location = location;
+        this.shotDirection = shotDir;
+        this.energy = this.INITIAL_ENERGY;
+    }
+    
     @Override
     public ImageIcon getImage() {
-        return ;
+        return this.shellImage;
     }
 
     @Override
     public String getName() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.NAME;
     }
 
     @Override
     public Location getLocation() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.location;
     }
 
     @Override
     public int getStrength() {
-        // TODO Auto-generated method stub
-        return 0;
+        return STRENGTH;
     }
 
     @Override
     public void loseEnergy(int energy) {
-        // TODO Auto-generated method stub
-        
+        this.energy -= energy;
     }
 
     @Override
     public boolean isDead() {
-        // TODO Auto-generated method stub
-        return false;
+        return energy < 0;
     }
 
     @Override
     public int getPlantCalories() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     public int getMeatCalories() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     public int getCoolDownPeriod() {
-        // TODO Auto-generated method stub
-        return 0;
+        return 1;
     }
 
     @Override
     public Command getNextAction(World world) {
-        // TODO Auto-generated method stub
-        return null;
+        Location nextLocation = new Location(this.location, shotDirection);
+        for(Item i : world.getItems()){
+            if(i.getLocation() == this.location){
+                if(i.getStrength() > this.STRENGTH){
+                    this.energy = 0;
+                    return new ExplosionCommand(this.location, this.energy);
+                } else{
+                    i.loseEnergy(Integer.MAX_VALUE);
+                }
+            }
+        }
+        if(Util.isLocationEmpty(world, nextLocation)){
+            return new MoveCommand(this, nextLocation);
+        } else {
+            this.energy = 0;
+            return new ExplosionCommand(this.location, this.energy);
+        }
     }
 
     @Override
     public void moveTo(Location targetLocation) {
-        // TODO Auto-generated method stub
-        
+        this.location = targetLocation;
     }
 
     @Override
     public int getMovingRange() {
         // TODO Auto-generated method stub
-        return 0;
+        return MAX_MOVE_RANGE;
     }
 
 }

@@ -15,7 +15,6 @@ import ca.ubc.ece.cpen221.mp4.items.Item;
 import ca.ubc.ece.cpen221.mp4.items.MoveableItem;
 import ca.ubc.ece.cpen221.mp4.items.animals.ArenaAnimal;
 import ca.ubc.ece.cpen221.mp4.items.vehicles.ArenaVehicle;
-import vehicles.Vehicles;
 
 public class M4ShermanAI extends AbstractAI {
 
@@ -28,7 +27,7 @@ public class M4ShermanAI extends AbstractAI {
 		Set<Item> runOver = new HashSet<Item>();
 		Set<Item> crash= new HashSet<Item>();
 		
-		for (Item things : world.searchSurroundings(item)) {
+		for (Item things : ((World)world).getItems()) {
 			if (things.getStrength() < item.getStrength()) {
 				runOver.add(things);
 			} else if (things.getStrength() > item.getStrength()) {
