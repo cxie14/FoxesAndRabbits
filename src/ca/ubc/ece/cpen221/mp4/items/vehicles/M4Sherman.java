@@ -23,7 +23,7 @@ public class M4Sherman implements ArenaVehicle{
     private static final double MAX_TURN_SPEED = 0.05;
     private static final double BORDER_LEEWAY = 3;
     private static final double BORDER_SPEED_LEEWAY = 0.1;
-    private static final int STRENGTH = 50;
+    private static final int STRENGTH = 400;
     private static final int INITIAL_ENERGY = 100;
     private static final Direction INITIAL_DIRECTION = Direction.NORTH;
     private static final int PROBABILITY_OF_EXPLOSION = 100;

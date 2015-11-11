@@ -31,8 +31,8 @@ public class ExplosionCommand implements Command{
 	
 	public void execute(World w) throws InvalidCommandException{
 	    
-	    if (!Util.isValidLocation(w, loc) || !Util.isLocationEmpty(w, loc)) {
-            throw new InvalidCommandException("Invalid ExplosionCommand: non-empty exploding target location");
+	    if (!Util.isLocationEmpty(w, loc)) {
+            throw new InvalidCommandException("Invalid ExplosionCommand: non-empty exploding target location"+ loc);
         }
 		
 		for(Item i : w.getItems()){

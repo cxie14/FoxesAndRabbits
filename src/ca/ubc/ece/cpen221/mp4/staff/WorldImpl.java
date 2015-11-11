@@ -101,7 +101,6 @@ public class WorldImpl implements World {
 					Command command = actor.getNextAction(this);
 					actorWait.put(actor, actor.getCoolDownPeriod());
 					try {
-						System.out.println("command" + command);
 						command.execute(this);
 					} catch (InvalidCommandException e) {
 						e.printStackTrace();

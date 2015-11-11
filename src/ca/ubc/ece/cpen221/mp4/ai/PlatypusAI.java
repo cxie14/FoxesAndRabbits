@@ -1,6 +1,7 @@
 package ca.ubc.ece.cpen221.mp4.ai;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import ca.ubc.ece.cpen221.mp4.ArenaWorld;
@@ -8,6 +9,7 @@ import ca.ubc.ece.cpen221.mp4.Direction;
 import ca.ubc.ece.cpen221.mp4.Location;
 import ca.ubc.ece.cpen221.mp4.Util;
 import ca.ubc.ece.cpen221.mp4.World;
+import ca.ubc.ece.cpen221.mp4.commands.AirStrikeCommand;
 import ca.ubc.ece.cpen221.mp4.commands.BreedCommand;
 import ca.ubc.ece.cpen221.mp4.commands.Command;
 import ca.ubc.ece.cpen221.mp4.commands.EatCommand;
@@ -21,13 +23,20 @@ public class PlatypusAI extends AbstractAI {
 		private int closest = 10; // max number; greater than rabbit's view range
 		private int temp;
 		private boolean foxFound;
+		private static final int INVERSE_PROBABILITY_AIRSTRIKE = 50;
 
 		public PlatypusAI() {
 		}
 
 		@Override
 		public Command getNextAction(ArenaWorld world, ArenaAnimal animal) {
-			// TODO: Change this. Implement your own AI rules.
+		    
+		    Random rand = new Random();
+			
+		    if(rand.nextInt(INVERSE_PROBABILITY_AIRSTRIKE) == 0){
+		        return new AirStrikeCommand(Util.getRandomEmptyAdjacentLocation((World) world, animal.getLocation()), Util.getRandomDirection());
+		    }
+		    
 		    Set<Item> edibles = new HashSet<Item>();
 	        Set<Item> comrades = new HashSet<Item>();
 	        for(Item item : world.searchSurroundings(animal)){
