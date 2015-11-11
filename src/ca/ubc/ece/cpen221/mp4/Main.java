@@ -26,10 +26,11 @@ public class Main {
 	static final int SPACES_PER_GRASS = 7;
 	static final int INITIAL_GRASS = X_DIM * Y_DIM / SPACES_PER_GRASS;
 	static final int INITIAL_GNATS = INITIAL_GRASS / 4;
-	static final int INITIAL_RABBITS = 0;// = INITIAL_GRASS / 4;
-	static final int INITIAL_FOXES = 0;// = INITIAL_GRASS / 32;
+	static final int INITIAL_RABBITS = INITIAL_GRASS / 4;
+	static final int INITIAL_FOXES = INITIAL_GRASS / 32;
 	static final int INITIAL_TIGERS = INITIAL_GRASS / 32;
 	static final int INITIAL_BEARS = INITIAL_GRASS / 40;
+	static final int INITIAL_PLATYPUSES= INITIAL_GRASS / 16;
 	static final int INITIAL_HYENAS = INITIAL_GRASS / 32;
 	static final int INITIAL_CARS = INITIAL_GRASS / 100;
 	static final int INITIAL_TRUCKS = INITIAL_GRASS / 150;
@@ -37,7 +38,12 @@ public class Main {
 	static final int INITIAL_MANS = INITIAL_GRASS / 150;
 	static final int INITIAL_WOMANS = INITIAL_GRASS / 100;
 	static final int INITIAL_HUNTERS = INITIAL_GRASS / 150;
+
+	static final int INITIAL_SHERMANS= 5;
+	static final int INITIAL_SQUID= 1;
+
 	static final int INITIAL_SHERMANS= 10;
+
 	
 	static final int INITIAL_PANZERS = 5;
 
@@ -66,6 +72,8 @@ public class Main {
 		addPanzers(world);
 		addMotorcycles(world);
 		addShermans(world);
+		addPlatypuses(world);
+		addSquid(world);
 		// TODO: You may add your own creatures here!
 	}
 
@@ -129,6 +137,26 @@ public class Main {
 			M4Sherman sherman= new M4Sherman(loc);
 			world.addItem(sherman);
 			world.addActor(sherman);
+		}
+	}
+	
+	private void addPlatypuses(World world){
+		PlatypusAI platypusAI = new PlatypusAI();
+		for(int i=0; i<INITIAL_PLATYPUSES; i++){
+			Location loc= Util.getRandomEmptyLocation(world);
+			Platypus platypus= new Platypus(platypusAI, loc);
+			world.addItem(platypus);
+			world.addActor(platypus);
+		}
+	}
+	
+	private void addSquid(World world){
+		SquidAI squidAI= new SquidAI();
+		for(int i=0; i<INITIAL_SQUID; i++){
+			Location loc= Util.getRandomEmptyLocation(world);
+			Squid squid= new Squid(squidAI, loc);
+			world.addItem(squid);
+			world.addActor(squid);
 		}
 	}
 }

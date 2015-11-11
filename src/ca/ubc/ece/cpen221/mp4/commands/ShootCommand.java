@@ -1,16 +1,25 @@
 package ca.ubc.ece.cpen221.mp4.commands;
 
 import ca.ubc.ece.cpen221.mp4.Direction;
+
+
+
 import ca.ubc.ece.cpen221.mp4.Location;
 import ca.ubc.ece.cpen221.mp4.World;
 import ca.ubc.ece.cpen221.mp4.items.Item;
 import ca.ubc.ece.cpen221.mp4.items.misc.Explosion;
 import ca.ubc.ece.cpen221.mp4.items.misc.BombShell;
 
+<<<<<<< HEAD
+public class ShootCommand {
+	
+	private final Direction dir;
+=======
 public class ShootCommand implements Command{
 
+>>>>>>> 58ea8950b41695a2ca87ccdd3a4776ec135aeda6
     private final Location loc;
-    private final Direction dir;
+   
     
     public ShootCommand(Location location, Direction dir) {
         this.loc=location;
@@ -31,5 +40,6 @@ public class ShootCommand implements Command{
         w.addActor(explode);
         w.addItem(explode);
     }
+
 }
 

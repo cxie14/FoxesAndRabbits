@@ -11,13 +11,13 @@ import ca.ubc.ece.cpen221.mp4.commands.Command;
 import ca.ubc.ece.cpen221.mp4.items.LivingItem;
 
 public class Platypus implements ArenaAnimal{
-	private static final int INITIAL_ENERGY = 30;
+	private static final int INITIAL_ENERGY = 20;
 	private static final int MAX_ENERGY = 40;
-	private static final int STRENGTH = 50;
-	private static final int MIN_BREEDING_ENERGY = 4;
+	private static final int STRENGTH = 100;
+	private static final int MIN_BREEDING_ENERGY = 3;
 	private static final int VIEW_RANGE = 12;
-	private static final int COOLDOWN = 2;
-	private static final ImageIcon rabbitImage = Util.loadImage("rabbit.gif");
+	private static final int COOLDOWN = 3;
+	private static final ImageIcon platypusImage = Util.loadImage("platypus.gif");
 
 	private final AI ai;
 
@@ -34,8 +34,8 @@ public class Platypus implements ArenaAnimal{
 	 * @param initialLocation
 	 *            : the location where this platypus will be created
 	 */
-	public Platypus(AI rabbitAI, Location initialLocation) {
-		ai = rabbitAI;
+	public Platypus(AI PlatypusAI, Location initialLocation) {
+		ai = PlatypusAI;
 		location = initialLocation;
 		energy = INITIAL_ENERGY;
 	}
@@ -66,7 +66,7 @@ public class Platypus implements ArenaAnimal{
 
 	@Override
 	public ImageIcon getImage() {
-		return rabbitImage;
+		return platypusImage;
 	}
 
 	@Override
